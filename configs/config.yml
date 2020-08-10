@@ -1,14 +1,18 @@
 language: "zh"
 
+# zh_jieba_supervised_embeddings
 pipeline:
-- name: "MitieNLP"
-  model: "data/total_word_feature_extractor_zh.dat"
 - name: "JiebaTokenizer"
-- name: "MitieEntityExtractor"
-- name: "EntitySynonymMapper"
-- name: "RegexFeaturizer"
-- name: "MitieFeaturizer"
-- name: "SklearnIntentClassifier"
+  dictionary_path: "data/dict"
+- name: "RegexFeaturizer"    # 支持正则
+- name: "CRFEntityExtractor"
+- name: "EntitySynonymMapper" # 支持同义词识别
+- name: "CountVectorsFeaturizer"
+- name: "CountVectorsFeaturizer"
+  analyzer: "char_wb"
+  min_ngram: 1
+  max_ngram: 4
+- name: "EmbeddingIntentClassifier"
 
 policies:
   - name: KerasPolicy
