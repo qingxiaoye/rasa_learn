@@ -43,12 +43,16 @@
                     即Entities有哪些，Slots就有哪些，并且Slots存储的值就是NLU模型提取的Entities的值。
                     - 定义
                         - 在domain.yml中定义，有多种格式
-                    - set
+                    - set（填充值）
                         - Slots Initial
-                            - 在domain中，通过initial_value设置初始值：initial_value: "human"
+                            - 在domain.yml中，通过initial_value设置初始值：initial_value: "human"
                         - stories.md
                             - 在stories.md文件添加一个包含-slot{"slot_name":"slot_value"}的story
-                    
+                        - buttons
+                            - 快捷键
+                        - actions
+                            - 在Custom Action
+                    - get（获取值）
                 - actions 动作
                     - 当Rasa NLU识别到用户输入Message的意图后
                     - Rasa Core对话管理模块就会对其作出回应，而完成这个回应的模块就是action。
