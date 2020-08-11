@@ -51,9 +51,15 @@
                         - buttons
                             - 快捷键
                         - actions
-                            - 在Custom Action
+                            - ① return [SlotSet("account_type", data["account_type"])]
+                            - ② 在stories.md里面添加一个包含-slot{"slot_name":"slot_value"}的story
+                            - ③ 在domain.yml中定义一个slot
                     - get（获取值）
-                - actions 动作
+                        - domain.yaml下templates
+                            - 在text里面，可以通过{slotname}的形式获取槽值。
+                        - Custom Action
+                            - account_type = tracker.get_slot('account_type')
+               - actions 动作
                     - 当Rasa NLU识别到用户输入Message的意图后
                     - Rasa Core对话管理模块就会对其作出回应，而完成这个回应的模块就是action。
                     - Rasa Core支持三种action，即default actions、utter actions以及 custom actions。
@@ -69,7 +75,6 @@
                 - templates	回答模板
 
         - endpoints.yml &emsp; details for connecting to channels like fb messenger
-
     - data
         - nlu.md：NLU模型训练样本数据：
         - stories.md
@@ -77,22 +82,42 @@
                -  `##`	story 标题(描述作用没有任何意义)
                - `*` 意图：在nlu.md定义
                - `-` 动作：在domain.yml中定义
-*	
-
     - models
         - <timestamp>.tar.gz	your initial model
-
+- 其他一些说明
+    - form
+        - 执行一个action需要同时填充多个slot时，可以使用FormAction来实现
+        - FormAction会遍历监管的所有slot，当发现相关的slot未被填充时，就会向用户主动发起询问，直到所有slot被填充完毕，才会执行接下来的业务逻辑。
+        - 步骤：
+            - ① stories
+                - *request_weather（intent）
+                    - weather_form为（form action ）
+                    - form{"name": "weather_form"}  激活form
+                    - form{"name": null}  使form无效
+            - ② domain
+                - intents下添加“request_weather”
+                - form 下添加“weather_form”
+            - ③ 配置FormPolicy
+                - name: FallbackPolicy
+                    - fallback_action_name: 'action_default_fallback'
+            - ④ Form Action实现
 - train model
     - 同时训练NLU和Core模型
     - rasa train --config ./configs/config.yml --domain ./configs/domain.yml --data data/
-        - data\total_word_feature_extractor_zh.dat 放在指定的目录下
+        - 指定文件--data ./data/nlu/nlu_slot.md  ./data/stories/stories_slot.md
+        - 注意 data\total_word_feature_extractor_zh.dat 放在指定的目录下
 
 - 启动rasa
     - python -m rasa run --port 5005 
-        --endpoints configs/endpoints.yml 
-      --credentials configs/credentials.yml --debug
+        - 其他参数（可以不加）
+            --endpoints configs/endpoints.yml 
+            --credentials configs/credentials.yml --debug
 
 
 - rasa run --port 9900 --debug
 
 - rasa run actions --port 9901 --actions actions --debug 
+
+
+
+ 

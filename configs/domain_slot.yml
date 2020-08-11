@@ -1,0 +1,23 @@
+intents:
+  - request_business
+  - request_money
+
+actions:
+  - utter_business_affirm
+  - utter_money_affirm
+slots:
+  business:
+    type: text
+  money:
+    type: text
+
+entities:
+  - business
+  - money
+  - account_type
+templates:
+  utter_business_affirm:
+  - text: "你好，您是要{business}"
+  utter_money_affirm:
+  - text: " 您是要{money}"
+
