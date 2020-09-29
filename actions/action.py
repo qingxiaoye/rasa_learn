@@ -19,7 +19,10 @@ import requests
 
 class FetchProfileAction(Action):
     def name(self):
-        return "fetch_profile"
+        return "action_fetch_profile"
 
-    def run(self, dispatcher, tracker, domain):
+    def run(self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]):
         return [SlotSet("account_type", 'pkq')]

@@ -108,12 +108,13 @@
         - 注意 data\total_word_feature_extractor_zh.dat 放在指定的目录下
 
 - 启动rasa
-    - python -m rasa run --port 5005 
+    -  rasa run --port 5005  -m     
         - 其他参数（可以不加）
+                
             --endpoints configs/endpoints.yml 
             --credentials configs/credentials.yml --debug
 
-
+ rasa train --config ./configs/config.yml --domain ./configs/domain_slot.yml --data ./data/nlu/nlu_slot.md  ./data/stories/stories_slot.md
 - rasa run --port 9900 --debug
 
 - rasa run actions --port 9901 --actions actions --debug 
